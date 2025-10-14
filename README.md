@@ -81,7 +81,7 @@ To set up the project on a new development machine, follow these steps:
 
 ## Testing the Application
 
-The project has a multi-layered test suite.
+The project comes with its own test-cases.
 
 - **To run all Unit and Feature tests:**
   ```bash
@@ -93,3 +93,6 @@ The project has a multi-layered test suite.
   ```bash
   php artisan dusk
   ```
+
+## Known Bugs
+- **Instructor 'Create Course' Button sometimes goes to pages that doesn't exist**
