@@ -34,7 +34,7 @@ This prototype includes the following features across three user roles (Guest, L
 - **Authentication:** Laravel Breeze
 - **Testing:** PHPUnit (Unit & Feature), Laravel Dusk (Browser)
 
-## Setup and Installation for Developers
+## Setup
 
 To set up the project on a new development machine, follow these steps:
 
