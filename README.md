@@ -88,7 +88,7 @@ You can also run AcadEasy without installing PHP, Composer, or Node.js locally b
     ```bash
     git clone <your-repository-url>
     cd AcadEasy
-   ```
+    ```
 2.  **Create a .env file from the example:**
      ```bash
     cp .env.example .env
