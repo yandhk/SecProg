@@ -34,7 +34,7 @@ This prototype includes the following features across three user roles (Guest, L
 - **Authentication:** Laravel Breeze
 - **Testing:** PHPUnit (Unit & Feature), Laravel Dusk (Browser)
 
-## Setup
+## Setup (Manual/Non-Docker)
 
 To set up the project on a new development machine, follow these steps:
 
@@ -78,6 +78,40 @@ To set up the project on a new development machine, follow these steps:
       npm run dev
       ```
     - The application will be available at **http://127.0.0.1:8000**.
+
+## Setup (Docker)
+
+You can also run AcadEasy without installing PHP, Composer, or Node.js locally by using Docker.
+
+1.  **Clone the Repository:**
+    - Do the same as the manual setup, i.e., clone the repo and enter the project folder.
+    ```bash
+    git clone <your-repository-url>
+    cd AcadEasy
+   ```
+2.  **Create a .env file from the example:**
+     ```bash
+    cp .env.example .env
+    ```
+3.  **Update the environment values:**
+    ```bash
+    APP_URL=http://localhost:8000
+    VITE_APP_URL=http://localhost:8000
+    VITE_DEV_SERVER_URL=http://localhost:5173
+    ```
+4.  **Build and start the Docker containers:**
+    ```bash
+    docker-compose up --build -d
+    ```
+5.  **Generate the APP_KEY (run only once)**
+    ```bash
+    docker-compose exec php bash
+    php artisan key:generate
+    exit
+    ```
+6. **Access application:**
+    - Laravel server: http://127.0.0.1:8000
+    - Vite server: http://127.0.0.1:5173
 
 ## Testing the Application
 

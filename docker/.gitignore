@@ -1,0 +1,9 @@
+# Node modules di Docker build
+node_modules/
+
+# PHP vendor (jika sempat copy di Dockerfile)
+vendor/
+
+# Logs, cache
+*.log
+*.cache

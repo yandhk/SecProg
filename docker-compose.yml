@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: acad_php
+    volumes:
+      - .:/var/www/html               # Laravel project di root
+      - vendor-data:/var/www/html/vendor   # Mount vendor agar live update
+    ports:
+      - "8000:8000"                   # Laravel dev server
+    networks:
+      - lms-net
+
+  node:
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    container_name: acad_node
+    volumes:
+      - .:/var/www/html               # Laravel project di root
+      - /var/www/html/node_modules    # Mount node_modules agar tidak tertimpa
+    ports:
+      - "5173:5173"                   # Vite/Tailwind dev server
+    networks:
+      - lms-net
+
+volumes:
+  vendor-data:
+
+networks:
+  lms-net:
+    driver: bridge
