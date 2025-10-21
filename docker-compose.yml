@@ -1,35 +1,43 @@
-version: "3.9"
+version: '3.9'
 
 services:
   php:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    container_name: acad_php
+    container_name: acadeasy-php
     volumes:
-      - .:/var/www/html               # Laravel project di root
-      - vendor-data:/var/www/html/vendor   # Mount vendor agar live update
-    ports:
-      - "8000:8000"                   # Laravel dev server
+      - .:/var/www/html
+      - /var/www/html/vendor
     networks:
-      - lms-net
+      - acadeasy_net
+    command: sh -c "composer install && php-fpm"
 
+  nginx:
+    image: nginx:alpine
+    container_name: acadeasy-nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - acadeasy_net
   node:
     build:
       context: .
       dockerfile: docker/node/Dockerfile
-    container_name: acad_node
+    container_name: acadeasy-node
+    working_dir: /app
+    command: sh -c "npm run build"
     volumes:
-      - .:/var/www/html               # Laravel project di root
-      - /var/www/html/node_modules    # Mount node_modules agar tidak tertimpa
-    ports:
-      - "5173:5173"                   # Vite/Tailwind dev server
+      - .:/app
     networks:
-      - lms-net
+      - acadeasy_net
 
-volumes:
-  vendor-data:
 
 networks:
-  lms-net:
+  acadeasy_net:
     driver: bridge
