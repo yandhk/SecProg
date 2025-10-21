@@ -7,3 +7,5 @@ vendor/
 # Logs, cache
 *.log
 *.cache
+
+production/

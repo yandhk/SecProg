@@ -1,15 +1,13 @@
-FROM node:20-alpine
+# Stage 1: build frontend assets
+FROM node:22-alpine AS builder
+WORKDIR /app
 
-WORKDIR /var/www/html
-
-# Copy package.json & package-lock.json untuk caching
+# Salin dependencies dan install
 COPY package*.json ./
+RUN npm ci
 
-RUN npm install
-
-# Copy seluruh source code
+# Salin semua source code untuk build
 COPY . .
 
-EXPOSE 5173
-
-CMD ["npm", "run", "dev"]
+# Jalankan build Vite
+RUN npm run build
