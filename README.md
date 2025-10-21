@@ -31,6 +31,7 @@ This prototype includes the following features across three user roles (Guest, L
 - **Backend:** Laravel 12
 - **Frontend:** Laravel Blade with Tailwind CSS
 - **Database:** SQLite (for simple local setup)
+- **Containerization** Docker + Docker Compose
 - **Authentication:** Laravel Breeze
 - **Testing:** PHPUnit (Unit & Feature), Laravel Dusk (Browser)
 
@@ -51,13 +52,44 @@ To set up the project on a new development machine, follow these steps:
     ```
 
 3.  **Configure Environment:**
+    **Development (Local)**
     - Create your local environment file:
+      ```bash
+      cp .env.example .env.dev
+      ```
+    - Generate the Laravel application key (run once):
+      ```bash
+      php artisan key:generate
+      ```
+    - Make sure the environment values are set for local development:
+      ```bash
+      APP_ENV=local
+      APP_DEBUG=true
+      DB_CONNECTION=sqlite
+      DB_DATABASE=/var/www/html/database/database.sqlite
+      VITE_DEV_SERVER_URL=http://localhost:5173
+      ```
+    **Production**
+    - Create your production environment file:
       ```bash
       cp .env.example .env
       ```
-    - Generate a unique application key:
+    - Generate the Laravel application key (run once):
       ```bash
       php artisan key:generate
+      ```
+    - Make sure the environment values are set for production server:
+      ```bash
+      APP_ENV=production
+      APP_DEBUG=false
+      DB_CONNECTION=mysql
+      DB_HOST=mysql
+      DB_PORT=3306
+      DB_DATABASE=acadeasy
+      DB_USERNAME=acadeasy_user
+      DB_PASSWORD=secret
+      VITE_APP_URL=http://localhost:8000
+      VITE_DEV_SERVER_URL=http://localhost:5173
       ```
 
 4.  **Set Up the Database:**
@@ -89,16 +121,46 @@ You can also run AcadEasy without installing PHP, Composer, or Node.js locally b
     git clone <your-repository-url>
     cd AcadEasy
     ```
-2.  **Create a .env file from the example:**
-     ```bash
-    cp .env.example .env
-    ```
-3.  **Update the environment values:**
-    ```bash
-    APP_URL=http://localhost:8000
-    VITE_APP_URL=http://localhost:8000
-    VITE_DEV_SERVER_URL=http://localhost:5173
-    ```
+2.  **Configure Environment:**
+    **Development (Local)**
+    - Create your local environment file:
+      ```bash
+      cp .env.example .env.dev
+      ```
+    - Generate the Laravel application key (run once):
+      ```bash
+      php artisan key:generate
+      ```
+    - Make sure the environment values are set for local development:
+      ```bash
+      APP_ENV=local
+      APP_DEBUG=true
+      DB_CONNECTION=sqlite
+      DB_DATABASE=/var/www/html/database/database.sqlite
+      VITE_DEV_SERVER_URL=http://localhost:5173
+      ```
+      **Production**
+    - Create your production environment file:
+      ```bash
+      cp .env.example .env
+      ```
+    - Generate the Laravel application key (run once):
+      ```bash
+      php artisan key:generate
+      ```
+    - Make sure the environment values are set for production server:
+      ```bash
+      APP_ENV=production
+      APP_DEBUG=false
+      DB_CONNECTION=mysql
+      DB_HOST=mysql
+      DB_PORT=3306
+      DB_DATABASE=acadeasy
+      DB_USERNAME=acadeasy_user
+      DB_PASSWORD=secret
+      VITE_APP_URL=http://localhost:8000
+      VITE_DEV_SERVER_URL=http://localhost:5173
+      ```
 4.  **Build and start the Docker containers:**
     ```bash
     docker-compose up --build -d
