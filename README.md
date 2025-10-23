@@ -1,4 +1,4 @@
-# AcadEasy - Learning Management System
+# AcadEasy - Marketplace-style Learning Management System
 
 AcadEasy is a web-based learning management system (LMS) designed to connect instructors and learners in a digital environment, similar to platforms like Udemy. This project was built using the Laravel framework.
 
@@ -40,7 +40,7 @@ To set up the project on a new development machine, follow these steps:
 
 1.  **Clone the Repository:**
     ```bash
-    git clone <your-repository-url>
+    git clone https://github.com/yandhk/SecProg
     cd AcadEasy
     ```
 
