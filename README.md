@@ -96,3 +96,4 @@ The project comes with its own test-cases.
 
 ## Known Bugs
 - **Instructor 'Create Course' Button sometimes goes to pages that doesn't exist**
+- **Somehow, we forgot to add a button/function to go back to the course catalog (for learner)**
