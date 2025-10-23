@@ -98,3 +98,4 @@ The project comes with its own test-cases.
 - **Instructor 'Create Course' Button sometimes goes to pages that doesn't exist**
 - **Somehow, we forgot to add a button/function to go back to the course catalog (for learner)**
 - **Docker image is still in testing phase**
+- **CRUD Implementation still need polishing (example: deleted course doesn't means it's ID is blank and can't be used again, and the system just go on without refactoring it, this can cause discrepancies in the database and leaving many IDs blank and open)**
