@@ -41,7 +41,7 @@ To set up the project on a new development machine, follow these steps:
 1.  **Clone the Repository:**
     ```bash
     git clone https://github.com/yandhk/SecProg
-    cd AcadEasy
+    cd SecProg
     ```
 
 2.  **Install Dependencies:** Install all backend (PHP) and frontend (JS) dependencies.
