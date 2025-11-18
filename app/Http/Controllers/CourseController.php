@@ -9,12 +9,20 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $courses = \App\Models\Course::latest()->get();
+    $search = $request->input('search'); // ambil keyword
 
-        return view('courses.index', compact('courses'));
+    $courses = \App\Models\Course::when($search, function($query, $search) {
+        return $query->where('title', 'like', '%' . $search . '%')
+                     ->orWhere('description', 'like', '%' . $search . '%');
+    })
+    ->latest()
+    ->get();
+
+    return view('courses.index', compact('courses', 'search'));
     }
+
 
     /**
      * Show the form for creating a new resource.
