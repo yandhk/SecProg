@@ -4,27 +4,35 @@ AcadEasy is a web-based learning management system (LMS) designed to connect ins
 
 ## Features Implemented
 
-This prototype includes the following features across three user roles (Guest, Learner, Instructor):
+  #### General & Public Features
+  - **Homepage Course Catalog:** The main page displays a catalog of all available courses for guests and
+  logged-in users.
+  - **Course Detail Page:** Publicly accessible pages for each course, showing its title, description, instructor,
+   and price.
+  - **User Registration with Role Selection:** A single registration form that allows new users to sign up as
+  either a **Learner** or an **Instructor**.
+  - **User Login/Logout:** Full authentication system.
 
-#### General & Public Features
-- **Homepage Course Catalog:** The main page displays a catalog of all available courses for guests and logged-in users.
-- **Course Detail Page:** Publicly accessible pages for each course, showing its title, description, instructor, and price.
-- **User Registration with Role Selection:** A single registration form that allows new users to sign up as either a **Learner** or an **Instructor**.
-- **User Login/Logout:** Full authentication system.
-
-#### Learner Features
-- **Course Enrollment:** Learners can enroll in courses from the course detail page.
-- **Learner Dashboard:** A personal dashboard that displays a list of all courses the learner is currently enrolled in.
-- **Role Protection:** Learners are prevented from accessing instructor-only pages (like course creation).
-
-#### Instructor Features
-- **Instructor Dashboard:** A dedicated dashboard for instructors to view and manage the courses they have created. It also displays a count of enrolled students for each course.
-- **Full Course Management (CRUD):**
-    - **Create:** Instructors can create new courses via a form, including title, description, price, and a thumbnail image upload.
-    - **Read:** View their own courses on their dashboard.
-    - **Update:** Edit and update the details of their existing courses.
-    - **Delete:** Remove their courses from the platform.
-- **Role Protection:** Instructors are prevented from enrolling in courses and can access instructor-only functionality.
+  #### Learner Features
+  - **Course Enrollment:** Learners can enroll in courses from the course detail page.
+  - **Learner Dashboard:** A personal dashboard that displays a list of all courses the learner is currently
+  enrolled in.
+  - **Payment Gateway Integration:** Comprehensive payment system supporting multiple payment methods:
+      - **QRIS:** QR code payments for all Indonesian e-wallets and banks
+      - **Virtual Accounts:** BCA, BNI, BRI, Mandiri VA payments
+      - **E-Wallets:** GoPay, OVO, DANA, ShopeePay simulation
+      - **Credit Cards:** Visa/Mastercard with 3DS verification simulation
+      - **Bank Transfer:** Manual bank transfer with payment simulation
+  - **Wallet System:** Digital wallet balance management for learners with:
+      - Wallet top-up functionality
+      - Transaction history with detailed payment logs
+      - Direct course purchase using wallet balance
+  - **Payment Flow Features:**
+      - Secure payment checkout with fee calculation
+      - Payment instruction pages tailored to each method
+      - Payment status tracking and auto-verification
+      - Payment cancellation functionality
+  - **Role Protection:** Learners are prevented from accessing instructor-only pages (like course creation).
 
 ## Technology Stack
 
@@ -60,14 +68,25 @@ To set up the project on a new development machine, follow these steps:
       php artisan key:generate
       ```
 
-4.  **Set Up the Database:**
-    - This project is configured to use SQLite by default, which requires no extra database software.
-    - Simply run the migration command. This will automatically create a `database.sqlite` file in the `database/` directory and build all the necessary tables.
+ 4.  **Set Up the Database:**
+      - This project is configured to use SQLite by default, which requires no extra database software.
+      - Run the migration command to create all necessary tables including payment tables:
+        ```bash
+        php artisan migrate
+        ```
+      - Seed the database with payment methods and initialize wallets:
+        ```bash
+        php artisan db:seed --class=PaymentMethodSeeder
+        php artisan db:seed --class=InitializeWalletSeeder
+        ```
+        
+5.  **Set Up the Storage Link:**
+    - Simply run the symlink command. This will automatically create a link between the web and 'storage/public' directory.
       ```bash
-      php artisan migrate
+      php artisan storage:link
       ```
-
-5.  **Run the Application:**
+      
+6.  **Run the Application:**
     - You need to run two commands in two separate terminals.
     - **Terminal 1 (Start the web server):**
       ```bash
