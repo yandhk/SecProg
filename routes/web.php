@@ -49,7 +49,6 @@ Route::get('/courses/{course}/start', [CourseController::class, 'start'])
 Route::get('/courses/{course}/player', [CourseController::class, 'player'])
     ->name('courses.player')
     ->middleware('auth');
-
 // Show — paling bawah
 Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
 
