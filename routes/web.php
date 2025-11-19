@@ -11,8 +11,27 @@ use Illuminate\Support\Facades\Route;
 // =============== HOME ===============
 Route::get('/', [CourseController::class, 'index'])->name('home');
 
+// =============== AUTH ROUTES (LOGIN / REGISTER) ===============
+// Sudah otomatis pakai middleware('guest') di auth.php
+require __DIR__ . '/auth.php';
+
+// =============== ADMIN PANEL ===============
+Route::middleware(['auth', 'role:admin'])->group(function () {
+
+    Route::get('/admin', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+    Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users');
+
+    Route::post('/admin/users/{user}/suspend', [AdminController::class, 'suspend'])
+        ->name('admin.users.suspend');
+
+    Route::post('/admin/users/{user}/unsuspend', [AdminController::class, 'unsuspend'])
+        ->name('admin.users.unsuspend');
+});
+
 // =============== DASHBOARD REDIRECT ===============
-// Semua user masuk ke /dashboard, tapi diarahkan sesuai user_type
 Route::get('/dashboard', function () {
     if (auth()->user()->user_type === 'admin') {
         return redirect()->route('admin.dashboard');
@@ -29,8 +48,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
-
 // =============== COURSES PUBLIC ===============
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 
@@ -43,25 +60,7 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
     Route::delete('/courses/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
 });
 
-// =============== ADMIN PANEL ===============
-Route::middleware(['auth', 'role:admin'])->group(function () {
-
-    // Dashboard Admin
-    Route::get('/admin', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-
-    // Manage Users
-    Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users');
-
-    Route::post('/admin/users/{user}/suspend', [AdminController::class, 'suspend'])
-        ->name('admin.users.suspend');
-
-    Route::post('/admin/users/{user}/unsuspend', [AdminController::class, 'unsuspend'])
-        ->name('admin.users.unsuspend');
-});
-
-// =============== COURSE START (must be above show) ===============
+// =============== COURSE START ===============
 Route::get('/courses/{course}/start', [CourseController::class, 'start'])
     ->middleware('auth')
     ->name('courses.start');
