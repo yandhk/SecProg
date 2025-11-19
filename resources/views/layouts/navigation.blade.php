@@ -12,9 +12,17 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+
+                    <!-- Dashboard -->
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <!-- All Courses (DITAMBAHKAN) -->
+                    <x-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.*')">
+                        {{ __('All Courses') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 
@@ -44,8 +52,7 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                                onclick="event.preventDefault(); this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
@@ -53,24 +60,28 @@
                 </x-dropdown>
             </div>
             @else
-                <div class="hidden sm:flex sm:items-center sm:ms-6 space-x-4">
-                    <a href="{{ route('login') }}"
+            <div class="hidden sm:flex sm:items-center sm:ms-6 space-x-4">
+                <a href="{{ route('login') }}"
                     class="px-4 py-2 text-sm font-semibold rounded-md border border-green-600 text-green-600 hover:bg-green-50 transition">
-                        Log in
-                    </a>
-                    <a href="{{ route('register') }}"
+                    Log in
+                </a>
+                <a href="{{ route('register') }}"
                     class="px-4 py-2 text-sm font-semibold rounded-md bg-green-600 text-white hover:bg-green-600 transition">
-                        Register
-                    </a>
-                </div>
+                    Register
+                </a>
+            </div>
             @endauth
 
-
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <button @click="open = ! open"
+                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -80,9 +91,17 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+
+            <!-- Dashboard -->
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            <!-- All Courses (DITAMBAHKAN) -->
+            <x-responsive-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.*')">
+                {{ __('All Courses') }}
+            </x-responsive-nav-link>
+
         </div>
 
         <!-- Responsive Settings Options -->
@@ -98,13 +117,11 @@
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
-                <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                        onclick="event.preventDefault(); this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
@@ -116,10 +133,11 @@
                 <x-responsive-nav-link :href="route('login')">
                     {{ __('Log In') }}
                 </x-responsive-nav-link>
+
                 @if (Route::has('register'))
-                    <x-responsive-nav-link :href="route('register')">
-                        {{ __('Register') }}
-                    </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('register')">
+                    {{ __('Register') }}
+                </x-responsive-nav-link>
                 @endif
             </div>
         </div>

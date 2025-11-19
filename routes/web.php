@@ -36,7 +36,11 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
     Route::delete('/courses/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
 });
 
-
+// ===============================================================
+// Public course route
+// ===============================================================
+Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
+    
 // ===============================================================
 // Learner only enrollment routes
 // ===============================================================
@@ -44,7 +48,4 @@ Route::middleware(['auth', 'role:learner'])->group(function () {
     Route::post('/enroll/{course}', [EnrollmentController::class, 'store'])->name('enroll.store');
 });
 
-// ===============================================================
-// Public course route
-// ===============================================================
-Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
+
