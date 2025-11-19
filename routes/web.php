@@ -45,10 +45,6 @@ Route::get('/courses/{course}/start', [CourseController::class, 'start'])
     ->name('courses.start')
     ->middleware('auth');
 
-// Player
-Route::get('/courses/{course}/player', [CourseController::class, 'player'])
-    ->name('courses.player')
-    ->middleware('auth');
 // Show — paling bawah
 Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
 
@@ -58,3 +54,7 @@ Route::get('/courses/{course}', [CourseController::class, 'show'])->name('course
 Route::middleware(['auth', 'role:learner'])->group(function () {
     Route::post('/enroll/{course}', [EnrollmentController::class, 'store'])->name('enroll.store');
 });
+
+Route::get('/courses/{course}/lesson/{lesson}', [LessonController::class, 'show'])
+    ->name('lessons.show')
+    ->middleware('auth');

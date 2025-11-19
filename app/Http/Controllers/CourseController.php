@@ -78,8 +78,7 @@ class CourseController extends Controller
                 ->with('error', 'You must enroll in this course first.');
         }
 
-        // redirect ke player
-        return redirect()->route('courses.player', $course);
+          return view('courses.start', compact('course'));
     }
 
 
