@@ -17,16 +17,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
-
+// Main auth routes
+require __DIR__ . '/auth.php';
 
 // ===============================================================
-// Course Index route 
+// Course Index
 // ===============================================================
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 
 // ===============================================================
-// Instructor only course management
+// Instructor only routes
 // ===============================================================
 Route::middleware(['auth', 'role:instructor'])->group(function () {
     Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
@@ -37,15 +37,25 @@ Route::middleware(['auth', 'role:instructor'])->group(function () {
 });
 
 // ===============================================================
-// Public course route
+// Public course routes (URUTAN PENTING)
 // ===============================================================
+
+// Start Course — HARUS sebelum show
+Route::get('/courses/{course}/start', [CourseController::class, 'start'])
+    ->name('courses.start')
+    ->middleware('auth');
+
+// Player
+Route::get('/courses/{course}/player', [CourseController::class, 'player'])
+    ->name('courses.player')
+    ->middleware('auth');
+
+// Show — paling bawah
 Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
-    
+
 // ===============================================================
-// Learner only enrollment routes
+// Enrollment (Learner Only)
 // ===============================================================
 Route::middleware(['auth', 'role:learner'])->group(function () {
     Route::post('/enroll/{course}', [EnrollmentController::class, 'store'])->name('enroll.store');
 });
-
-

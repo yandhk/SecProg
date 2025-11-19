@@ -62,10 +62,27 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(\App\Models\Course $course)
+        public function show(\App\Models\Course $course)
     {
         return view('courses.show', compact('course'));
     }
+
+    // ================================
+    // Course Player (Start Learning)
+    // ================================
+        public function start(\App\Models\Course $course)
+    {
+        // pastikan user sudah enroll
+        if (!auth()->user()->enrollments()->where('course_id', $course->id)->exists()) {
+            return redirect()->route('courses.show', $course)
+                ->with('error', 'You must enroll in this course first.');
+        }
+
+        // redirect ke player
+        return redirect()->route('courses.player', $course);
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.

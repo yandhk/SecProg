@@ -31,7 +31,13 @@
                                     @endphp
 
                                     @if($isEnrolled)
-                                        <p class="font-semibold text-green-600">You are already enrolled in this course.</p>
+                                        <p class="font-semibold text-green-600 mb-3">You are already enrolled in this course.</p>
+
+                                        <a href="{{ route('courses.start', $course->id) }}"
+                                        class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded">
+                                            Start Course
+                                        </a>
+
                                     @else
                                         <form method="POST" action="{{ route('enroll.store', $course) }}">
                                             @csrf
@@ -40,6 +46,7 @@
                                             </x-primary-button>
                                         </form>
                                     @endif
+
                                 @endif
                             @endauth
                         </div>
