@@ -21,7 +21,11 @@
                             {{ $course->description }}
                         </p>
                         <p class="text-2xl font-bold mt-6">
-                            ${{ number_format($course->price, 2) }}
+                            @if($course->price > 0)
+                                Rp {{ number_format($course->price, 0, ',', '.') }}
+                            @else
+                                Free
+                            @endif
                         </p>
                         <div class="mt-6">
                             @auth
@@ -33,12 +37,19 @@
                                     @if($isEnrolled)
                                         <p class="font-semibold text-green-600">You are already enrolled in this course.</p>
                                     @else
-                                        <form method="POST" action="{{ route('enroll.store', $course) }}">
-                                            @csrf
-                                            <x-primary-button>
-                                                {{ __('Enroll Now') }}
-                                            </x-primary-button>
-                                        </form>
+                                        @if($course->price > 0)
+                                            <a href="{{ route('payment.checkout', $course) }}"
+                                               class="inline-flex items-center px-6 py-3 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
+                                                Enroll Now - Rp {{ number_format($course->price, 0, ',', '.') }}
+                                            </a>
+                                        @else
+                                            <form method="POST" action="{{ route('enroll.store', $course) }}">
+                                                @csrf
+                                                <x-primary-button>
+                                                    {{ __('Enroll for Free') }}
+                                                </x-primary-button>
+                                            </form>
+                                        @endif
                                     @endif
                                 @endif
                             @endauth
