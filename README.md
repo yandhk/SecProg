@@ -66,8 +66,13 @@ To set up the project on a new development machine, follow these steps:
       ```bash
       php artisan migrate
       ```
-
-5.  **Run the Application:**
+5.  **Set Up the Storage Link:**
+    - Simply run the symlink command. This will automatically create a link between the web and 'storage/public' directory.
+      ```bash
+      php artisan storage:link
+      ```
+      
+6.  **Run the Application:**
     - You need to run two commands in two separate terminals.
     - **Terminal 1 (Start the web server):**
       ```bash
