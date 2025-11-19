@@ -43,6 +43,14 @@
                     </x-slot>
 
                     <x-slot name="content">
+
+                        <!-- Admin Panel -->
+                        @if(auth()->user()->user_type === 'admin')
+                            <x-dropdown-link :href="route('admin.dashboard')">
+                                {{ __('Admin Panel') }}
+                            </x-dropdown-link>
+                        @endif
+
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
@@ -66,7 +74,7 @@
                     Log in
                 </a>
                 <a href="{{ route('register') }}"
-                    class="px-4 py-2 text-sm font-semibold rounded-md bg-green-600 text-white hover:bg-green-600 transition">
+                    class="px-4 py-2 text-sm font-semibol   d rounded-md bg-green-600 text-white hover:bg-green-600 transition">
                     Register
                 </a>
             </div>

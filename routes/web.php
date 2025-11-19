@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\Route;
 // =============== HOME ===============
 Route::get('/', [CourseController::class, 'index'])->name('home');
 
-// =============== AUTH ROUTES (LOGIN / REGISTER) ===============
-// Sudah otomatis pakai middleware('guest') di auth.php
+// =============== AUTH ROUTES ===============
 require __DIR__ . '/auth.php';
 
 // =============== ADMIN PANEL ===============
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
+    // Admin dashboard
     Route::get('/admin', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
@@ -31,15 +31,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         ->name('admin.users.unsuspend');
 });
 
-// =============== DASHBOARD REDIRECT ===============
+
+// =============== DASHBOARD (SEMUA USER BISA AKSES) ===============
 Route::get('/dashboard', function () {
-    if (auth()->user()->user_type === 'admin') {
-        return redirect()->route('admin.dashboard');
-    }
     return app(DashboardController::class)->index();
 })
 ->middleware(['auth', 'verified'])
 ->name('dashboard');
+
 
 // =============== PROFILE ===============
 Route::middleware('auth')->group(function () {
@@ -51,8 +50,9 @@ Route::middleware('auth')->group(function () {
 // =============== COURSES PUBLIC ===============
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 
-// =============== INSTRUCTOR AREA ===============
-Route::middleware(['auth', 'role:instructor'])->group(function () {
+// =============== INSTRUCTOR + ADMIN BOLEH EDIT COURSE ===============
+Route::middleware(['auth', 'role:instructor,admin'])->group(function () {
+
     Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
     Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
     Route::get('/courses/{course}/edit', [CourseController::class, 'edit'])->name('courses.edit');
@@ -65,10 +65,10 @@ Route::get('/courses/{course}/start', [CourseController::class, 'start'])
     ->middleware('auth')
     ->name('courses.start');
 
-// =============== COURSE SHOW (keep last) ===============
+// =============== COURSE SHOW ===============
 Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
 
-// =============== ENROLL (LEARNER) ===============
+// =============== ENROLL (LEARNER SAJA) ===============
 Route::middleware(['auth', 'role:learner'])->group(function () {
     Route::post('/enroll/{course}', [EnrollmentController::class, 'store'])->name('enroll.store');
 });
