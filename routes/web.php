@@ -36,7 +36,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::get('/dashboard', function () {
     return app(DashboardController::class)->index();
 })
-->middleware(['auth', 'verified'])
+->middleware(['auth', 'verified', 'not-admin'])
 ->name('dashboard');
 
 

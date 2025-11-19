@@ -9,21 +9,32 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
-
-                <!-- Navigation Links -->
+               <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
 
-                    <!-- Dashboard -->
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+                    <!-- Dashboard (ADMIN TIDAK BOLEH MELIHAT) -->
+                    @if(auth()->check() && auth()->user()->user_type !== 'admin')
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    @endif
 
-                    <!-- All Courses (DITAMBAHKAN) -->
+                <!-- All Courses -->
                     <x-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.*')">
-                        {{ __('All Courses') }}
-                    </x-nav-link>
+    {{ __('All Courses') }}
+</x-nav-link>
+
+
+
+                    <!-- Admin Panel (ONLY FOR ADMIN) -->
+                    @if(auth()->check() && auth()->user()->user_type === 'admin')
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
+                            {{ __('Admin Panel') }}
+                        </x-nav-link>
+                    @endif
 
                 </div>
+
             </div>
 
             <!-- Settings Dropdown -->
@@ -101,9 +112,12 @@
         <div class="pt-2 pb-3 space-y-1">
 
             <!-- Dashboard -->
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            @unless(auth()->user()?->user_type === 'admin')
+                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+                </x-responsive-nav-link>
+                @endunless
+
 
             <!-- All Courses (DITAMBAHKAN) -->
             <x-responsive-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.*')">
