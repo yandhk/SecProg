@@ -19,10 +19,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // Admin dashboard
     Route::get('/admin', function () {
-        return view('admin.dashboard');
+        return response(view('admin.dashboard'))
+               ->header('Cache-Control','no-store, no-cache, must-revalidate, max-age=0')
+               ->header('Pragma','no-cache')
+               ->header('Expires','Sat, 01 Jan 1990 00:00:00 GMT');
     })->name('admin.dashboard');
 
-    Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users');
+    Route::get('/admin/users', function () {
+        return response(app(AdminController::class)->index())
+               ->header('Cache-Control','no-store, no-cache, must-revalidate, max-age=0')
+               ->header('Pragma','no-cache')
+               ->header('Expires','Sat, 01 Jan 1990 00:00:00 GMT');
+    })->name('admin.users');
 
     Route::post('/admin/users/{user}/suspend', [AdminController::class, 'suspend'])
         ->name('admin.users.suspend');
@@ -31,14 +39,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         ->name('admin.users.unsuspend');
 });
 
-
 // =============== DASHBOARD (SEMUA USER BISA AKSES) ===============
 Route::get('/dashboard', function () {
-    return app(DashboardController::class)->index();
+    return response(app(DashboardController::class)->index())
+           ->header('Cache-Control','no-store, no-cache, must-revalidate, max-age=0')
+           ->header('Pragma','no-cache')
+           ->header('Expires','Sat, 01 Jan 1990 00:00:00 GMT');
 })
-->middleware(['auth', 'verified', 'not-admin'])
+->middleware(['auth', 'verified'])
 ->name('dashboard');
-
 
 // =============== PROFILE ===============
 Route::middleware('auth')->group(function () {
@@ -77,3 +86,11 @@ Route::middleware(['auth', 'role:learner'])->group(function () {
 Route::get('/courses/{course}/lesson/{lesson}', [LessonController::class, 'show'])
     ->middleware('auth')
     ->name('lessons.show');
+
+// =============== LOGIN (NO CACHE) ===============
+Route::get('/login', function () {
+    return response(view('auth.login'))
+           ->header('Cache-Control','no-store, no-cache, must-revalidate, max-age=0')
+           ->header('Pragma','no-cache')
+           ->header('Expires','Sat, 01 Jan 1990 00:00:00 GMT');
+})->name('login');
