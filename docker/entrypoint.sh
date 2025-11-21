@@ -82,8 +82,8 @@ echo "🗄️  Running database migrations..."
 php artisan migrate --force --no-interaction
 
 # Seed database (optional - uncomment if needed)
-# echo "🌱 Seeding database..."
-# php artisan db:seed --force --no-interaction
+echo "🌱 Seeding database..."
+php artisan db:seed --force --no-interaction
 
 # Clear and cache config for production
 echo "⚡ Optimizing application..."
