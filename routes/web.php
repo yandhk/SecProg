@@ -6,6 +6,7 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 // =============== HOME ===============
@@ -50,6 +51,9 @@ Route::get('/dashboard', function () {
 ->name('dashboard');
 
 // =============== PROFILE ===============
+Route::get('/learner/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('learner.dashboard');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -82,15 +86,26 @@ Route::middleware(['auth', 'role:learner'])->group(function () {
     Route::post('/enroll/{course}', [EnrollmentController::class, 'store'])->name('enroll.store');
 });
 
-// =============== LESSONS ===============
-Route::get('/courses/{course}/lesson/{lesson}', [LessonController::class, 'show'])
-    ->middleware('auth')
-    ->name('lessons.show');
+ // Payment Routes
+Route::middleware(['auth', 'role:learner'])->group(function () {
+    // Payment checkout
+    Route::get('/courses/{course}/payment', [PaymentController::class, 'showPaymentPage'])->name('payment.checkout');
+    Route::post('/courses/{course}/payment/initiate', [PaymentController::class, 'initiatePayment'])->name('payment.initiate');
+    Route::post('/courses/{course}/payment/wallet', [PaymentController::class, 'payWithWallet'])->name('payment.pay.wallet');
 
-// =============== LOGIN (NO CACHE) ===============
-Route::get('/login', function () {
-    return response(view('auth.login'))
-           ->header('Cache-Control','no-store, no-cache, must-revalidate, max-age=0')
-           ->header('Pragma','no-cache')
-           ->header('Expires','Sat, 01 Jan 1990 00:00:00 GMT');
-})->name('login');
+    // Payment instructions and status
+    Route::get('/payment/{transactionId}/instructions', [PaymentController::class, 'paymentInstructions'])->name('payment.instructions');
+    Route::get('/payment/{transactionId}/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment/{transactionId}/cancel', [PaymentController::class, 'cancelPayment'])->name('payment.cancel');
+    Route::get('/payment/{transactionId}/status', [PaymentController::class, 'checkPaymentStatus'])->name('payment.check.status');
+
+    // 3DS Verification
+    Route::get('/payment/{transactionId}/3ds', [PaymentController::class, 'show3DSVerification'])->name('payment.3ds.verify');
+    Route::post('/payment/{transactionId}/3ds', [PaymentController::class, 'process3DSVerification'])->name('payment.3ds.process');
+
+    // Wallet Management
+    Route::get('/wallet', [PaymentController::class, 'showWallet'])->name('wallet.show');
+    Route::post('/wallet/add-funds', [PaymentController::class, 'addWalletFunds'])->name('wallet.add.funds');
+});
+
+

@@ -1,0 +1,66 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Dependencies
+node_modules
+vendor
+
+# Environment
+.env
+.env.backup
+.env.production
+.env.local
+.env.*.local
+
+# Keep .env.example
+!.env.example
+
+# Testing
+tests
+phpunit.xml
+.phpunit.result.cache
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Laravel specific
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+!storage/logs/.gitignore
+!storage/framework/.gitignore
+!storage/framework/cache/.gitignore
+!storage/framework/sessions/.gitignore
+!storage/framework/views/.gitignore
+
+bootstrap/cache/*
+!bootstrap/cache/.gitignore
+
+# Build artifacts
+public/hot
+public/storage
+public/build
+
+# Documentation
+README.md
+*.md
+
+# CI/CD
+.github
+.gitlab-ci.yml
