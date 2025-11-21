@@ -15,6 +15,15 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <script>
+            history.pushState(null, null, location.href);
+            window.onpopstate = function () {
+                history.go(1);
+            };
+        </script>
+
+
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">

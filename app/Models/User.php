@@ -65,8 +65,30 @@ class User extends Authenticatable
     /**
      * Check if user has a specific role
      */
+    public function isAdmin()
+    {
+        return $this->user_type === 'admin';
+    }
+
     public function hasRole($role)
     {
         return $this->user_type === $role;
     }
+
+
+    public function suspend()
+    {
+        $this->update(['is_suspended' => true]);
+    }
+
+    public function unsuspend()
+    {
+        $this->update(['is_suspended' => false]);
+    }
+
+    public function isSuspended()
+    {
+        return $this->is_suspended;
+    }
+
 }
