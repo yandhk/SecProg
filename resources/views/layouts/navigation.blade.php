@@ -37,8 +37,31 @@
 
             </div>
 
-            <!-- Settings Dropdown -->
+            <!-- Wallet Balance for Learners -->
             @auth
+                @if(auth()->user()->user_type === 'learner')
+                    @php
+                        $walletBalance = \App\Models\WalletBalance::where('learner_id', auth()->id())->first();
+                    @endphp
+                    @if($walletBalance)
+                    <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        <div class="bg-green-50 border border-green-200 rounded-lg px-4 py-2">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
+                                    <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/>
+                                </svg>
+                                <div>
+                                    <div class="text-xs text-green-600 font-medium">Wallet Balance</div>
+                                    <div class="text-lg font-bold text-green-700">Rp {{ number_format($walletBalance->balance, 0, ',', '.') }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                @endif
+
+            <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -54,6 +77,12 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        @if(auth()->user()->user_type === 'learner')
+                            <x-dropdown-link :href="route('wallet.show')">
+                                💳 My Wallet
+                            </x-dropdown-link>
+                        @endif
+
 
                         <!-- Admin Panel -->
                         @if(auth()->user()->user_type === 'admin')

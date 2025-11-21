@@ -55,7 +55,11 @@
                             </p>
 
                             <p class="text-lg font-bold mt-4">
-                                ${{ number_format($course->price, 2) }}
+                                @if($course->price > 0)
+                                    Rp {{ number_format($course->price, 0, ',', '.') }}
+                                @else
+                                    Free
+                                @endif
                             </p>
 
                             {{-- ============================= --}}
@@ -75,14 +79,21 @@
                                             Enrolled
                                         </span>
                                     @else
-                                        <form action="{{ route('enroll.store', $course->id) }}" method="POST">
-                                            @csrf
-                                            <button 
-                                                type="submit"
-                                                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                                                Enroll Now
-                                            </button>
-                                        </form>
+                                        @if($course->price > 0)
+                                            <a href="{{ route('payment.checkout', $course) }}"
+                                               class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-center">
+                                                Enroll Now - Rp {{ number_format($course->price, 0, ',', '.') }}
+                                            </a>
+                                        @else
+                                            <form action="{{ route('enroll.store', $course->id) }}" method="POST">
+                                                @csrf
+                                                <button
+                                                    type="submit"
+                                                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                                                    Enroll for Free
+                                                </button>
+                                            </form>
+                                        @endif
                                     @endif
                                 </div>
                             @endif

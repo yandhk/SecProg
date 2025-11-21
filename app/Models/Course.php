@@ -40,10 +40,4 @@ class Course extends Model
     {
         return $this->belongsToMany(\App\Models\User::class, 'enrollments', 'course_id', 'learner_id');
     }
-
-    public function lessons()
-    {
-        return $this->hasMany(\App\Models\Lesson::class);
-    }
-
 }
