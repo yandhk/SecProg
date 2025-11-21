@@ -18,7 +18,7 @@ class UsersSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'Ahmad Zakaria',
-                'email' => 'zakaria@learner.com',
+                'email' => 'zakaria@learner.acad',
                 'password' => Hash::make('Zakaria123'),
                 'user_type' => 'learner',
                 'email_verified_at' => now(),
@@ -27,7 +27,7 @@ class UsersSeeder extends Seeder
             ],
             [
                 'name' => 'Tasha Mirelle',
-                'email' => 'tmirelle@learner.com',
+                'email' => 'tmirelle@learner.acad',
                 'password' => Hash::make('mirelle123'),
                 'user_type' => 'learner',
                 'email_verified_at' => now(),
@@ -40,7 +40,7 @@ class UsersSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'Dimas Zuhri',
-                'email' => 'dims@ins.com',
+                'email' => 'dims@ins.acad',
                 'password' => Hash::make('Dims123123'),
                 'user_type' => 'instructor',
                 'email_verified_at' => now(),
@@ -49,9 +49,18 @@ class UsersSeeder extends Seeder
             ],
             [
                 'name' => 'Hasan Darojat, Ph.D.',
-                'email' => 'hasdar@ins.com',
+                'email' => 'hasdar@ins.acad',
                 'password' => Hash::make('sansDar'),
                 'user_type' => 'instructor',
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Bagas as Admin',
+                'email' => 'bagas@admin.acad',
+                'password' => Hash::make('Gasngenggg'),
+                'user_type' => 'admin',
                 'email_verified_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
