@@ -23,23 +23,6 @@ Setup Docker **production-ready** untuk Laravel dengan Vite yang berjalan **seka
 
 ## 🎯 Quick Start (Satu Command!)
 
-### Opsi 1: Setup Script (Recommended)
-
-```bash
-# 1. Clone/copy semua file
-# 2. Jalankan setup
-chmod +x setup.sh
-./setup.sh
-```
-
-### Opsi 2: Makefile
-
-```bash
-make install
-```
-
-### Opsi 3: Manual
-
 ```bash
 # 1. Copy dan edit .env
 cp .env.example .env
