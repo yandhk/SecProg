@@ -1,2 +1,7 @@
 FROM nginx:alpine
-COPY ./default.conf /etc/nginx/conf.d/default.conf
+
+# Install envsubst (ada di paket gettext)
+RUN apk add --no-cache gettext
+
+# Copy template config
+COPY ./default.conf /etc/nginx/templates/default.conf.template
