@@ -66,6 +66,7 @@ WORKDIR /var/www/html
 COPY --from=build --chown=www-data:www-data /var/www/html /var/www/html
 
 # Copy Nginx config
+RUN rm -f /etc/nginx/conf.d/default.conf
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Copy supervisord config
