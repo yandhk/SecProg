@@ -107,13 +107,7 @@ if grep -q "QUEUE_CONNECTION=database" /var/www/html/.env 2>/dev/null; then
     php artisan queue:failed-table --force 2>/dev/null || true
 fi
 
-# Run migrations
-echo "🗄️  Running database migrations..."
-php artisan migrate --force --no-interaction
 
-# Seed database (optional - uncomment if needed)
-echo "🌱 Seeding database..."
-php artisan db:seed --force --no-interaction
 
 # Clear and cache config for production
 echo "⚡ Optimizing application..."
