@@ -59,9 +59,17 @@ WORKDIR /var/www/html
 # Copy Laravel build
 COPY --from=build --chown=www-data:www-data /var/www/html /var/www/html
 
-# Copy Nginx config
-RUN rm -f /etc/nginx/conf.d/default.conf
-COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+# 🔥 PENTING: Hapus SEMUA config default Nginx
+RUN rm -rf /etc/nginx/sites-enabled/* \
+    && rm -rf /etc/nginx/sites-available/* \
+    && rm -f /etc/nginx/conf.d/default.conf \
+    && rm -f /etc/nginx/conf.d/*.conf
+
+# Copy Nginx config untuk Laravel
+COPY docker/nginx/default.conf /etc/nginx/conf.d/laravel.conf
+
+# Test nginx config validity
+RUN nginx -t || { echo "❌ Nginx config invalid!"; exit 1; }
 
 # Copy supervisord config
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf

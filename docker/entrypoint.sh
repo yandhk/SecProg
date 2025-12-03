@@ -5,6 +5,19 @@ echo "========================================="
 echo "🚀 Starting Laravel Application Setup"
 echo "========================================="
 
+# 🔥 TAMBAHKAN INI - Force clean & verify nginx config
+echo "🔧 Configuring Nginx..."
+rm -rf /etc/nginx/sites-enabled/* /etc/nginx/sites-available/* 2>/dev/null || true
+rm -f /etc/nginx/conf.d/default.conf 2>/dev/null || true
+
+# Verify nginx config
+if ! nginx -t; then
+    echo "❌ Nginx configuration is invalid!"
+    cat /etc/nginx/conf.d/laravel.conf
+    exit 1
+fi
+echo "✅ Nginx configuration valid"
+
 # Check environment variables
 if [ -f /usr/local/bin/check-env.sh ]; then
     /usr/local/bin/check-env.sh
