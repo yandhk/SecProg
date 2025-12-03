@@ -55,9 +55,9 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 🔥 TAMBAHKAN INI - Configure PHP-FPM to listen on TCP
-RUN sed -i 's/listen = \/run\/php\/php8.2-fpm.sock/listen = 9000/' /etc/php/8.2/fpm/pool.d/www.conf \
-    && sed -i 's/;listen.allowed_clients = 127.0.0.1/listen.allowed_clients = 127.0.0.1/' /etc/php/8.2/fpm/pool.d/www.conf
-
+RUN sed -i 's/listen = \/run\/php\/php-fpm.sock/listen = 9000/' /usr/local/etc/php-fpm.d/www.conf \
+    && echo "listen.allowed_clients = 127.0.0.1" >> /usr/local/etc/php-fpm.d/www.conf
+    
 WORKDIR /var/www/html
 
 # Copy Laravel build
