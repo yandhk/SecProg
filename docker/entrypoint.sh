@@ -42,6 +42,23 @@ else
     echo "✅ .env file already exists"
 fi
 
+# 🔥 Inject Railway environment variables to .env
+echo "🔧 Syncing Railway variables to .env..."
+
+if [ -n "$APP_URL" ]; then
+    sed -i "s|^APP_URL=.*|APP_URL=${APP_URL}|" /var/www/html/.env || echo "APP_URL=${APP_URL}" >> /var/www/html/.env
+fi
+
+if [ -n "$ASSET_URL" ]; then
+    sed -i "s|^ASSET_URL=.*|ASSET_URL=${ASSET_URL}|" /var/www/html/.env || echo "ASSET_URL=${ASSET_URL}" >> /var/www/html/.env
+fi
+
+if [ -n "$APP_KEY" ]; then
+    sed -i "s|^APP_KEY=.*|APP_KEY=${APP_KEY}|" /var/www/html/.env
+fi
+
+echo "✅ Railway variables synced"
+
 # Generate APP_KEY if not set
 if ! grep -q "APP_KEY=base64:" /var/www/html/.env 2>/dev/null; then
     echo "🔑 Generating APP_KEY..."
